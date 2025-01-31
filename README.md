@@ -156,7 +156,7 @@ I've also included an example output for the multipanel visualization
 
 
 ## Completing the Assignment
-Make sure to push all your code to github, ensure that your unit tests are correct, and submit a link to your repo in the HW submission form, found [here](https://forms.gle/oCSiGvUeJfJfa6e37). 
+Make sure to push all your code to github, ensure that your unit tests are correct, and submit a link to your repo in the HW submission form, found [here]([https://forms.gle/oCSiGvUeJfJfa6e37](https://forms.gle/Gicp2ybJ334hii847)). 
 
 ### Grading (Total: 10)
 * KMeans implementation (4)
