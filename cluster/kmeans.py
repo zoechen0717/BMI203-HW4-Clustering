@@ -59,7 +59,18 @@ class KMeans:
 
         # Randomly initialize centroids
         np.random.seed(123)
-        self.centroids = mat[np.random.choice(mat.shape[0], self.k, replace=False)]
+        #self.centroids = mat[np.random.choice(mat.shape[0], self.k, replace=False)]
+        ## KMeans++ approach
+        # Pick the first centroid randomly
+        np.random.seed(123)
+        self.centroids = np.empty((self.k, mat.shape[1]))
+        self.centroids[0] = mat[np.random.choice(mat.shape[0])]
+
+        # Select remaining centroids based on probabilities
+        for i in range(1, self.k):
+            distances = np.min(cdist(mat, self.centroids[:i], metric='euclidean'), axis=1) ** 2
+            probabilities = distances / np.sum(distances)
+            self.centroids[i] = mat[np.random.choice(mat.shape[0], p=probabilities)]
 
         # For loop to find the optimimal clustering
         for _ in range(self.max_iter):
