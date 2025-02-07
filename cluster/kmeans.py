@@ -58,9 +58,11 @@ class KMeans:
             raise ValueError("Number of observations < k")
 
         # Randomly initialize centroids
+        # Initialize centroids are inspired by Isobel's GMM tutorial:https://github.com/IJbeasley/GMM-Tutorial/blob/main/GMM_tutorial.ipynb
         np.random.seed(123)
         self.centroids = mat[np.random.choice(mat.shape[0], self.k, replace=False)]
 
+        # Lloyd’s Algorithm psedocode inspired by the class lecture and this princeton cs lecture notes:https://www.cs.princeton.edu/courses/archive/spring19/cos324/files/kmeans.pdf
         # For loop to find the optimimal clustering
         for _ in range(self.max_iter):
             # Compute distances
@@ -104,6 +106,7 @@ class KMeans:
         if mat.shape[1] != self.centroids.shape[1]:
             raise ValueError("Feature mismatched")
 
+        # The predict and fit parts also inspired by this pyton tutorial:https://pythonprogramming.net/k-means-from-scratch-machine-learning-tutorial/
         # Compute distances and assign points to nearest centroid
         distances = cdist(mat, self.centroids, metric='euclidean')
         return np.argmin(distances, axis=1)
