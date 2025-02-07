@@ -34,17 +34,20 @@ class Silhouette:
             raise ValueError("Number of observations must match the number of labels.")
 
         # Compute pairwise distances
-        distances = cdist(X, X, metric='euclidean')
-
+        distances = cdist(X, X, metric="euclidean")
         silhouette_scores = np.zeros(X.shape[0])
 
         for i in range(X.shape[0]):
-            same_cluster = y == y[i]
-            other_clusters = ~same_cluster
+            cluster_mask = (y == y[i])
+            other_clusters_mask = ~cluster_mask
 
-            a_i = np.mean(distances[i, same_cluster]) if np.sum(same_cluster) > 1 else 0
+            # Compute a(i) - Mean distance to other points in the same cluster (excluding itself)
+            a_i = np.mean(distances[i, cluster_mask & (np.arange(len(y)) != i)]) if np.sum(cluster_mask) > 1 else 0
+
+            # Compute b(i) - Smallest mean distance to another cluster
             b_i = np.min([np.mean(distances[i, y == label]) for label in np.unique(y) if label != y[i]])
 
+            # Compute silhouette score
             silhouette_scores[i] = (b_i - a_i) / max(a_i, b_i) if max(a_i, b_i) > 0 else 0
 
         return silhouette_scores
